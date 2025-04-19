@@ -1,0 +1,347 @@
+/* css/base.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Light Theme */
+    --bg-color: #f4f7f9; /* Lighter, cooler background */
+    --surface-color: #ffffff;
+    --primary-color: #007aff; /* Apple Blue */
+    --primary-dark-color: #005ecb;
+    --secondary-color: #34c759; /* Apple Green */
+    --accent-color: #ff9500; /* Apple Orange */
+    --danger-color: #ff3b30; /* Apple Red */
+    --text-color: #1d1d1f; /* Near Black */
+    --text-light-color: #6e6e73; /* Medium Gray */
+    --border-color: #d1d1d6;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --shadow-hover-color: rgba(0, 0, 0, 0.12);
+
+    /* Dark Theme */
+    --dark-bg-color: #131a24; /* Darker blue-ish gray */
+    --dark-surface-color: #1e2732;
+    --dark-primary-color: #0a84ff; /* Brighter blue for dark mode */
+    --dark-primary-dark-color: #3b9dff;
+    --dark-secondary-color: #30d158; /* Brighter green */
+    --dark-accent-color: #ff9f0a; /* Brighter orange */
+    --dark-danger-color: #ff453a; /* Brighter red */
+    --dark-text-color: #f5f5f7; /* Off-white */
+    --dark-text-light-color: #8e8e93; /* Lighter gray */
+    --dark-border-color: #3a3a3c;
+    --dark-shadow-color: rgba(0, 0, 0, 0.2);
+    --dark-shadow-hover-color: rgba(0, 0, 0, 0.3);
+
+    --border-radius: 10px;
+    --transition-speed: 0.25s;
+    --font-family: 'Poppins', sans-serif;
+}
+
+/* Apply dark theme variables when .dark-mode is present */
+body.dark-mode {
+    --bg-color: var(--dark-bg-color);
+    --surface-color: var(--dark-surface-color);
+    --primary-color: var(--dark-primary-color);
+    --primary-dark-color: var(--dark-primary-dark-color);
+    --secondary-color: var(--dark-secondary-color);
+    --accent-color: var(--dark-accent-color);
+    --danger-color: var(--dark-danger-color);
+    --text-color: var(--dark-text-color);
+    --text-light-color: var(--dark-text-light-color);
+    --border-color: var(--dark-border-color);
+    --shadow-color: var(--dark-shadow-color);
+    --shadow-hover-color: var(--dark-shadow-hover-color);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+    transition: border-color var(--transition-speed) ease;
+}
+
+.app-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    transition: color var(--transition-speed) ease;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.current-time {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-light-color);
+    background-color: var(--surface-color);
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    font-variant-numeric: tabular-nums;
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--text-light-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: all var(--transition-speed) ease;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-hover-color);
+    color: var(--primary-color);
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 5px;
+    box-shadow: 0 2px 5px var(--shadow-color);
+    transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tab {
+    padding: 12px 25px;
+    border-radius: calc(var(--border-radius) - 3px); /* Slightly smaller radius for inner element */
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    border: none;
+    background-color: transparent;
+    color: var(--text-light-color);
+    font-size: 1rem;
+}
+
+.tab.active {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 122, 255, 0.3); /* Blue shadow for active */
+}
+body.dark-mode .tab.active {
+     box-shadow: 0 3px 6px rgba(10, 132, 255, 0.4); /* Brighter blue shadow */
+}
+
+.tab:not(.active):hover {
+    color: var(--primary-color);
+}
+
+.app-section {
+    display: none;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    margin-bottom: 30px;
+    transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.app-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    transition: color var(--transition-speed) ease;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Common Button Styles */
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    font-size: 1rem;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-hover-color);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px var(--shadow-color);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+.btn-primary:hover:not(:disabled) {
+    background-color: var(--primary-dark-color);
+}
+
+.btn-secondary {
+    background-color: var(--surface-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    box-shadow: none; /* Less prominent shadow */
+}
+.btn-secondary:hover:not(:disabled) {
+    background-color: rgba(0, 122, 255, 0.1);
+}
+body.dark-mode .btn-secondary {
+    border-color: var(--dark-primary-color);
+    color: var(--dark-primary-color);
+}
+body.dark-mode .btn-secondary:hover:not(:disabled) {
+    background-color: rgba(10, 132, 255, 0.2);
+}
+
+
+.btn-success {
+    background-color: var(--secondary-color);
+    color: white;
+}
+.btn-success:hover:not(:disabled) {
+    background-color: #2aa14a; /* Darker Green */
+}
+body.dark-mode .btn-success:hover:not(:disabled) {
+    background-color: #32d74b; /* Lighter Green */
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+.btn-danger:hover:not(:disabled) {
+    background-color: #d32f2f; /* Darker Red */
+}
+body.dark-mode .btn-danger:hover:not(:disabled) {
+    background-color: #ff4f42; /* Lighter Red */
+}
+
+
+.btn-warning {
+    background-color: var(--accent-color);
+    color: white;
+}
+.btn-warning:hover:not(:disabled) {
+    background-color: #f57c00; /* Darker Orange */
+}
+body.dark-mode .btn-warning:hover:not(:disabled) {
+     background-color: #ffaa0a; /* Lighter Orange */
+}
+
+
+.btn-icon {
+    padding: 0;
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+    border-radius: 50%;
+}
+
+.btn-subtle {
+    background: none;
+    border: none;
+    color: var(--text-light-color);
+    padding: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color var(--transition-speed) ease;
+    box-shadow: none;
+}
+.btn-subtle:hover {
+    color: var(--primary-color);
+    transform: none;
+    box-shadow: none;
+}
+
+/* About Section Specifics */
+#about-section p {
+    margin-bottom: 15px;
+    color: var(--text-light-color);
+}
+
+#about-section strong {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+#about-section ul {
+    list-style-position: inside;
+    padding-left: 20px;
+    margin-bottom: 15px;
+    color: var(--text-light-color);
+}
+
+#about-section li {
+    margin-bottom: 8px;
+}
