@@ -482,26 +482,41 @@ export function setupTimerSection() {
     addTimerBtn.addEventListener('click', () => {
         const newTimerId = generateId();
         const defaultName = `Timer ${Object.keys(activeTimers).length + 1}`;
-        const timerElement = createTimerElement(newTimerId, defaultName);
-
-        // Store timer state
+        
+        // Create timer state first
         activeTimers[newTimerId] = {
             intervalId: null,
             currentTaskIndex: 0,
             isRunning: false,
             isLooping: false,
             tasks: [],
-            element: timerElement,
+            element: null,
         };
-        updateTimerControlsState(newTimerId); // Initially disable most controls
+
+        // Create the element and store it
+        const timerElement = createTimerElement(newTimerId, defaultName);
+        activeTimers[newTimerId].element = timerElement;
+
+        // Initialize the loop toggle state
+        const loopCheckbox = timerElement.querySelector('.loop-checkbox');
+        const loopToggle = timerElement.querySelector('.loop-toggle');
+        const loopText = timerElement.querySelector('.loop-text');
+        
+        loopCheckbox.checked = false;
+        loopText.textContent = 'Loop Off';
+        loopToggle.classList.remove('active');
+
+        updateTimerControlsState(newTimerId);
     });
 
-    // Event delegation for dynamically added timers and tasks
+    // Event delegation for timer controls
     timersListContainer.addEventListener('click', (event) => {
         const target = event.target;
         const timerInstance = target.closest('.timer-instance');
         if (!timerInstance) return;
         const timerId = timerInstance.dataset.timerId;
+        const timer = activeTimers[timerId];
+        if (!timer) return;
 
         // Timer Controls
         if (target.matches('.start-pause-timer')) {
@@ -509,53 +524,62 @@ export function setupTimerSection() {
         } else if (target.matches('.reset-timer')) {
             handleResetTimer(timerId);
         } else if (target.matches('.skip-task-timer')) {
-             handleSkipTask(timerId);
+            handleSkipTask(timerId);
         } else if (target.matches('.timer-remove-btn')) {
             handleRemoveTimer(timerId);
         } else if (target.matches('.add-task-btn')) {
             openTaskModal(timerId, (taskData) => {
-                // Callback after modal save
                 addTaskToTimer(taskData.timerId, taskData);
             });
-        } else if (target.closest('.loop-toggle')) {
+        } else if (target.matches('.loop-toggle') || target.matches('.loop-checkbox') || target.matches('.loop-text')) {
+            event.preventDefault();
+            event.stopPropagation();
             const checkbox = timerInstance.querySelector('.loop-checkbox');
             const textElement = timerInstance.querySelector('.loop-text');
-            // Only toggle if click wasn't on the checkbox itself
+            const loopToggle = timerInstance.querySelector('.loop-toggle');
+            
+            // Toggle the checkbox if click wasn't directly on it
             if (!target.matches('.loop-checkbox')) {
                 checkbox.checked = !checkbox.checked;
             }
-            // Update loop state
-            handleToggleLoop(timerId, checkbox, textElement);
-            // Prevent event from bubbling
-            event.stopPropagation();
+            
+            // Update the timer's loop state
+            timer.isLooping = checkbox.checked;
+            textElement.textContent = timer.isLooping ? 'Loop On' : 'Loop Off';
+            loopToggle.classList.toggle('active', timer.isLooping);
         } else if (target.matches('.timer-name')) {
             const nameSpan = target;
             const nameInput = timerInstance.querySelector('.timer-name-input');
             enableTimerNameEditing(timerId, nameSpan, nameInput);
         }
 
-        // Task Controls
+        // Handle task controls
         const taskItem = target.closest('.task-item');
         if (taskItem) {
-             const taskId = taskItem.dataset.taskId;
-             if (target.matches('.task-edit-btn')) {
-                 const timer = activeTimers[timerId];
-                 const task = timer?.tasks.find(t => t.id === taskId);
-                 if (task) {
-                     openTaskModal(timerId, (taskData) => {
-                          editTaskInTimer(taskData.timerId, taskData);
-                     }, { id: task.id, name: task.name, initialSeconds: task.initialSeconds });
-                 }
-             } else if (target.matches('.task-remove-btn')) {
-                 if (confirm('Are you sure you want to remove this task?')) {
+            const taskId = taskItem.dataset.taskId;
+            if (target.matches('.task-edit-btn')) {
+                const task = timer.tasks.find(t => t.id === taskId);
+                if (task) {
+                    openTaskModal(timerId, (taskData) => {
+                        editTaskInTimer(taskData.timerId, taskData);
+                    }, {
+                        id: taskId,
+                        name: task.name,
+                        initialSeconds: task.initialSeconds
+                    });
+                }
+            } else if (target.matches('.task-remove-btn')) {
+                if (confirm('Are you sure you want to remove this task?')) {
                     removeTaskFromTimer(timerId, taskId);
-                 }
-             }
+                }
+            }
         }
     });
 
-     // Handle saving timer name on Enter or Blur
-     timersListContainer.addEventListener('focusout', (event) => {
+    // ...existing timer name editing code...
+
+    // Handle saving timer name on Enter or Blur
+    timersListContainer.addEventListener('focusout', (event) => {
         if (event.target.matches('.timer-name-input')) {
              const timerInstance = event.target.closest('.timer-instance');
              const timerId = timerInstance.dataset.timerId;

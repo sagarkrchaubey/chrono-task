@@ -74,9 +74,6 @@
 }
 
 /* Remove any special styling for btn-danger in stopwatch controls */
-.stopwatch-controls .btn-danger {
-    /* Remove any overrides */
-}
 
 .sw-reset-icon {
     font-size: 1.6rem;
