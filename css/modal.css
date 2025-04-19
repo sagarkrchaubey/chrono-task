@@ -1,0 +1,184 @@
+/* css/modal.css */
+
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: var(--surface-color);
+    padding: 30px 35px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 450px; /* Limit width */
+    transform: scale(0.95);
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    position: relative;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+
+.modal-title {
+    margin-bottom: 25px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+    transition: color var(--transition-speed) ease;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-light-color);
+    cursor: pointer;
+    line-height: 1;
+    padding: 5px;
+    transition: color var(--transition-speed) ease;
+}
+.modal-close-btn:hover {
+    color: var(--danger-color);
+}
+
+
+.modal-form-group {
+    margin-bottom: 20px;
+}
+
+.modal-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-light-color);
+    margin-bottom: 8px;
+    transition: color var(--transition-speed) ease;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    background-color: var(--bg-color); /* Input background */
+    color: var(--text-color);
+    transition: all var(--transition-speed) ease;
+}
+.modal-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+body.dark-mode .modal-input:focus {
+     box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
+}
+
+.time-input-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.time-input-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-input {
+    width: 75px; /* Slightly wider */
+    padding: 10px;
+    text-align: center;
+    font-size: 1.1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all var(--transition-speed) ease;
+    appearance: textfield;
+    -moz-appearance: textfield; /* Hide arrows in Firefox */
+}
+.time-input::-webkit-outer-spin-button,
+.time-input::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Hide arrows in Chrome/Safari */
+    margin: 0;
+}
+.time-input:focus {
+     outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+body.dark-mode .time-input:focus {
+     box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
+}
+
+
+.quick-time-section {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    transition: border-color var(--transition-speed) ease;
+}
+
+.quick-time-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.quick-time {
+    padding: 8px 15px;
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.quick-time:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+}
+
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to right */
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.modal-buttons .btn {
+    min-width: 100px;
+}

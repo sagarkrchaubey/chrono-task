@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronoTask - Timer & Stopwatch</title>
+    <!-- Link CSS Files -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/stopwatch.css">
+    <link rel="stylesheet" href="css/timer.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Favicon (optional) -->
+    <!-- <link rel="icon" href="assets/favicon.ico" type="image/x-icon"> -->
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <h1 class="app-title">ChronoTask</h1>
+            <div class="header-controls">
+                <div id="current-time" class="current-time">00:00:00</div>
+                <button id="theme-toggle" class="theme-toggle" title="Toggle Theme">🌙</button>
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <nav class="tabs">
+            <button class="tab active" data-tab="stopwatch">Stopwatch</button>
+            <button class="tab" data-tab="timer">Task Timer</button>
+            <button class="tab" data-tab="about">About</button>
+        </nav>
+
+        <!-- App Sections -->
+        <main>
+            <!-- Stopwatch Section -->
+            <section class="app-section active" id="stopwatch-section">
+                <h2>Stopwatch</h2>
+                <div class="stopwatch-display">
+                    <span id="sw-hours">00</span><span class="separator">:</span>
+                    <span id="sw-minutes">00</span><span class="separator">:</span>
+                    <span id="sw-seconds">00</span><span class="stopwatch-milliseconds">.<span id="sw-milliseconds">00</span></span>
+                </div>
+                <div class="stopwatch-controls">
+                    <button id="sw-start-stop" class="btn btn-primary">Start</button>
+                    <button id="sw-lap" class="btn btn-secondary" disabled>Lap</button>
+                    <button id="sw-reset" class="btn btn-icon btn-danger btn-disabled" disabled title="Reset">
+                        <span class="sw-reset-icon">↺</span>
+                    </button>
+                </div>
+                <div class="laps-container">
+                    <div class="laps-header">
+                        <span>Lap</span>
+                        <span>Lap Time / Diff</span>
+                    </div>
+                    <div id="lap-list" class="lap-list">
+                        <!-- Lap items will be added here -->
+                    </div>
+                    <div id="clear-laps-container" style="display: none;">
+                        <button id="clear-laps-btn" class="btn btn-subtle">Clear Laps</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timer Section -->
+            <section class="app-section" id="timer-section">
+                 <h2>Task Timers</h2>
+                 <div id="timers-list">
+                     <!-- Timer instances will be added here -->
+                 </div>
+                 <button id="add-timer-btn" class="btn btn-success">
+                    <span style="font-size: 1.2em; margin-right: 5px;">+</span> Add New Timer
+                 </button>
+            </section>
+
+            <!-- About Section -->
+            <section class="app-section" id="about-section">
+                <h2>About ChronoTask</h2>
+                <p><strong>ChronoTask</strong> is a versatile time management tool designed to help you track time accurately and manage complex timed sequences with ease.</p>
+
+                <h3>Features:</h3>
+                <ul>
+                    <li><strong>Stopwatch:</strong> A precise stopwatch with lap timing functionality. Track overall time and individual lap durations, including differences between laps (faster/slower).</li>
+                    <li><strong>Task Timer:</strong> Create multiple independent timers, each composed of several sequential tasks or segments.</li>
+                    <li><strong>Customizable Tasks:</strong> Assign custom names and durations (hours, minutes, seconds) to each task within a timer.</li>
+                    <li><strong>Timer Naming:</strong> Give each multi-task timer a unique name for easy identification.</li>
+                    <li><strong>Looping:</strong> Set timers to loop automatically, restarting from the first task after the last one finishes – perfect for interval training or recurring work blocks.</li>
+                    <li><strong>Skip Task:</strong> Jump to the next task in the sequence instantly.</li>
+                    <li><strong>Audio Notifications:</strong> Get an audible alert when each task within a timer completes. (Requires browser permission initiated by user interaction).</li>
+                    <li><strong>Light & Dark Modes:</strong> Switch between themes for comfortable viewing in any lighting condition.</li>
+                    <li><strong>Responsive Design:</strong> Fully functional and visually appealing on desktops, tablets, and mobile devices.</li>
+                </ul>
+
+                <h3>Use Cases & Examples:</h3>
+                <ul>
+                    <li><strong>Workout Intervals (HIIT):</strong> Create a timer named "HIIT Workout". Add tasks like "Warm-up" (5:00), "High Intensity" (0:30), "Rest" (0:15), "High Intensity" (0:30), "Rest" (0:15)... Enable loop for multiple rounds.</li>
+                    <li><strong>Pomodoro Technique:</strong> Create a "Focus Session" timer. Add tasks "Work" (25:00) and "Short Break" (5:00). Loop it 4 times, then create another timer "Long Break" with one task (15:00).</li>
+                    <li><strong>Cooking & Baking:</strong> Set up a "Baking Timer" with tasks like "Preheat Oven" (10:00), "Mix Ingredients" (5:00), "Bake" (35:00), "Cool Down" (15:00).</li>
+                    <li><strong>Presentations/Speeches:</strong> Create a "Presentation Flow" timer. Add tasks for "Introduction" (3:00), "Section 1" (10:00), "Section 2" (12:00), "Q&A" (5:00). Use skip if you finish a section early.</li>
+                    <li><strong>Meditation/Mindfulness:</strong> Set a simple timer named "Meditation" with one task for your desired duration (e.g., 10:00).</li>
+                    <li><strong>Tracking Work/Study Blocks:</strong> Use the stopwatch's lap feature to time specific sub-tasks within a larger project without stopping the overall timer.</li>
+                </ul>
+                 <p><em>Enjoy managing your time more effectively with ChronoTask!</em></p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Task Modal -->
+    <div class="modal-overlay" id="task-modal-overlay">
+        <div class="modal-content" id="task-modal-content">
+            <button class="modal-close-btn" id="modal-close-btn" title="Close">×</button>
+            <h3 class="modal-title" id="modal-title">Add New Task</h3>
+
+            <div class="modal-form-group">
+                <label for="task-name-input" class="modal-label">Task Name (Optional)</label>
+                <input type="text" id="task-name-input" class="modal-input" placeholder="E.g., Warm-up, Work Block, Rest">
+            </div>
+
+            <div class="modal-form-group">
+                 <label class="modal-label">Task Duration</label>
+                 <div class="time-input-group">
+                    <div class="time-input-item">
+                        <label for="task-hours-input">Hours</label>
+                        <input type="number" id="task-hours-input" class="time-input" min="0" value="00">
+                    </div>
+                    <div class="time-input-item">
+                        <label for="task-minutes-input">Minutes</label>
+                        <input type="number" id="task-minutes-input" class="time-input" min="0" max="59" value="00">
+                    </div>
+                    <div class="time-input-item">
+                        <label for="task-seconds-input">Seconds</label>
+                        <input type="number" id="task-seconds-input" class="time-input" min="0" max="59" value="00">
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-time-section">
+                <p class="modal-label">Quick Durations:</p>
+                <div class="quick-time-buttons">
+                    <button class="quick-time" data-minutes="1">1m</button>
+                    <button class="quick-time" data-minutes="5">5m</button>
+                    <button class="quick-time" data-minutes="10">10m</button>
+                    <button class="quick-time" data-minutes="15">15m</button>
+                    <button class="quick-time" data-minutes="25">25m</button>
+                    <button class="quick-time" data-minutes="30">30m</button>
+                    <button class="quick-time" data-minutes="45">45m</button>
+                    <button class="quick-time" data-minutes="60">1h</button>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="cancel-task-btn">Cancel</button>
+                <button class="btn btn-primary" id="save-task-btn">Save Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link JavaScript Files (Module type for imports) -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

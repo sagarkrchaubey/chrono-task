@@ -1,0 +1,256 @@
+/* css/responsive.css */
+
+@media (max-width: 768px) {
+    .app-container {
+        padding: 15px;
+    }
+
+    .app-title {
+        font-size: 1.5rem;
+    }
+
+    .header-controls {
+        gap: 15px;
+    }
+
+    .current-time {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+
+    .theme-toggle {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+    }
+
+    .tabs {
+        padding: 4px;
+        width: 100%; /* Full width tabs container */
+        justify-content: space-around; /* Distribute tabs */
+    }
+
+    .tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        flex-grow: 1; /* Allow tabs to grow */
+        text-align: center;
+    }
+
+    .app-section {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    /* Stopwatch */
+    .stopwatch-display {
+        font-size: 3.5rem;
+        margin: 20px 0 30px 0;
+    }
+    .stopwatch-milliseconds {
+        font-size: 1.5rem;
+    }
+    .stopwatch-controls .btn {
+        min-width: 100px;
+        height: 45px;
+        padding: 10px 20px;
+    }
+    .stopwatch-controls .btn-danger { /* Reset button */
+        width: 45px;
+        height: 45px;
+    }
+    .sw-reset-icon {
+        font-size: 1.4rem;
+    }
+    .lap-list {
+        max-height: 200px;
+    }
+    .lap-item {
+        padding: 10px;
+        flex-direction: column; /* Stack lap details */
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .lap-time-details {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .lap-time, .lap-diff {
+        min-width: auto;
+        text-align: left;
+    }
+
+
+    /* Timer */
+    .timer-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .timer-name {
+        font-size: 1.1rem;
+        margin-right: 0;
+    }
+    .timer-name-input {
+        font-size: 1.1rem;
+    }
+    .task-item {
+        padding: 10px 15px;
+        flex-direction: column; /* Stack task info and controls */
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .task-details {
+        width: 100%;
+        justify-content: space-between; /* Push time to the right */
+    }
+     .task-info {
+        flex-grow: 1; /* Allow name to take space */
+        margin-right: 10px;
+    }
+    .task-time {
+        font-size: 1.1rem;
+        flex-shrink: 0; /* Prevent time shrinking */
+    }
+    .task-controls {
+        opacity: 1; /* Always visible on mobile */
+        align-self: flex-end; /* Position controls to the right */
+    }
+
+    .timer-controls {
+        flex-direction: column; /* Stack controls */
+        align-items: stretch; /* Make controls full width */
+        gap: 15px;
+    }
+    .timer-main-controls, .timer-options {
+        justify-content: center; /* Center buttons */
+        width: 100%;
+    }
+    .timer-options {
+        flex-direction: column; /* Stack skip and loop */
+        gap: 10px;
+    }
+    .loop-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Modal */
+    .modal-content {
+        padding: 25px;
+        max-width: 90%;
+    }
+    .modal-title {
+        font-size: 1.4rem;
+    }
+    .time-input-group {
+        gap: 10px;
+    }
+    .time-input {
+        width: 65px;
+    }
+    .modal-buttons {
+        justify-content: center; /* Center modal buttons */
+    }
+}
+
+
+@media (max-width: 480px) {
+    .app-title {
+        font-size: 1.3rem;
+    }
+    .header-controls {
+        gap: 10px;
+    }
+     /* Maybe hide current time on very small screens if needed */
+    .current-time {
+       display: none;
+    }
+    .theme-toggle {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .tabs {
+        padding: 3px;
+    }
+    .tab {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+
+    .app-section {
+        padding: 15px;
+    }
+
+    /* Stopwatch */
+    .stopwatch-display {
+        font-size: 2.8rem;
+    }
+    .stopwatch-milliseconds {
+        font-size: 1.2rem;
+    }
+    .stopwatch-controls {
+        gap: 10px;
+        flex-wrap: wrap; /* Allow wrapping */
+        justify-content: space-around; /* Distribute controls */
+    }
+    .stopwatch-controls .btn {
+        flex-grow: 1; /* Allow buttons to grow */
+        min-width: 90px;
+    }
+    .stopwatch-controls .btn-danger { /* Reset button */
+        width: 40px;
+        height: 40px;
+        flex-grow: 0; /* Don't let reset grow */
+    }
+     .sw-reset-icon {
+        font-size: 1.2rem;
+    }
+
+    /* Timer */
+    .timer-instance {
+        padding: 15px;
+    }
+    .task-index {
+        display: none; /* Hide index number on small screens */
+    }
+    .task-details {
+         gap: 10px;
+    }
+    .task-time {
+        font-size: 1rem;
+    }
+    .task-btn {
+        font-size: 1rem;
+    }
+    .add-task-btn {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    #add-timer-btn {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    /* Modal */
+     .modal-content {
+        padding: 20px;
+    }
+    .modal-title {
+        font-size: 1.3rem;
+    }
+    .quick-time {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    .modal-buttons .btn {
+        min-width: 80px;
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+}
