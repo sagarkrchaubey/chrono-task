@@ -87,30 +87,34 @@ body.dark-mode .timer-remove-btn:hover {
 
 
 .tasks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: contents; /* Allow grid to include add button */
+}
+
+.timer-instance > .tasks-list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Reduced from 180px */
+    gap: 12px; /* Reduced gap */
     margin-bottom: 25px;
 }
 
 .task-item {
     background-color: var(--surface-color);
     border-radius: var(--border-radius);
-    padding: 15px 20px;
+    padding: 15px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
+    flex-direction: column;
+    gap: 10px;
     box-shadow: 0 2px 5px var(--shadow-color);
-    border-left: 5px solid var(--border-color); /* Default border */
+    border-left: 5px solid var(--border-color);
     transition: all var(--transition-speed) ease;
-    position: relative; /* For absolute positioned buttons */
+    position: relative;
+    aspect-ratio: 1; /* Make it square */
 }
 
 .task-item.active {
     border-left-color: var(--primary-color);
     box-shadow: 0 4px 10px var(--shadow-hover-color);
-    transform: scale(1.01); /* Slight scale up */
+    transform: scale(1.02);
 }
 
 .task-item.completed {
@@ -123,23 +127,29 @@ body.dark-mode .timer-remove-btn:hover {
 
 
 .task-details {
-    flex-grow: 1;
     display: flex;
-    align-items: center;
-    gap: 15px;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
 }
 
 .task-index {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     font-weight: 600;
     color: var(--text-light-color);
-    font-size: 1.1rem;
-    width: 25px; /* Align index numbers */
-    text-align: center;
+    font-size: 0.9rem;
 }
 
 .task-info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+    gap: 10px;
 }
 
 .task-name {
@@ -147,7 +157,10 @@ body.dark-mode .timer-remove-btn:hover {
     color: var(--text-color);
     transition: color var(--transition-speed) ease;
     font-size: 1rem;
-    cursor: default; /* Default unless editing */
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .task-name.editable {
     cursor: pointer;
@@ -157,7 +170,7 @@ body.dark-mode .timer-remove-btn:hover {
 }
 
 .task-time {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--primary-color);
     font-variant-numeric: tabular-nums;
@@ -166,46 +179,100 @@ body.dark-mode .timer-remove-btn:hover {
 
 .task-controls {
     display: flex;
-    gap: 8px;
-    opacity: 0; /* Hidden by default */
+    justify-content: center;
+    gap: 10px; /* Reduced gap between controls */
+    opacity: 0;
     transition: opacity var(--transition-speed) ease;
+    margin-top: auto; /* Push to bottom */
 }
 
 .task-item:hover .task-controls {
-    opacity: 1; /* Show on hover */
+    opacity: 1;
 }
 
 .task-btn {
     background: none;
     border: none;
-    padding: 5px;
+    padding: 6px;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.4rem; /* Match task time size */
     color: var(--text-light-color);
-    transition: color var(--transition-speed) ease;
+    transition: all var(--transition-speed) ease;
     line-height: 1;
+    position: relative; /* For tooltip positioning */
 }
+
+.task-btn::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+    box-shadow: 0 2px 5px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+.task-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
 .task-btn:hover {
     color: var(--primary-color);
+    transform: scale(1.1);
 }
+
 .task-remove-btn:hover {
     color: var(--danger-color);
 }
 
+/* Update responsive sizes accordingly */
+@media (max-width: 768px) {
+    .task-btn {
+        font-size: 1.35rem; /* Reduced from 2.7rem */
+        padding: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .task-btn {
+        font-size: 1.2rem; /* Reduced from 2.4rem */
+        padding: 4px;
+    }
+}
 
 .add-task-btn {
-    display: block; /* Button takes full width */
-    width: 100%;
-    margin-top: 15px; /* Space above */
-    background-color: transparent;
+    aspect-ratio: 1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    background-color: var(--surface-color);
     border: 2px dashed var(--border-color);
     color: var(--text-light-color);
-    padding: 12px;
+    padding: 15px;
     border-radius: var(--border-radius);
     font-weight: 500;
-    text-align: center;
     transition: all var(--transition-speed) ease;
 }
+
+.add-task-btn::before {
+    content: '+';
+    font-size: 2rem;
+    line-height: 1;
+}
+
 .add-task-btn:hover {
     border-color: var(--primary-color);
     color: var(--primary-color);
@@ -242,30 +309,35 @@ body.dark-mode .add-task-btn:hover {
 .loop-toggle {
     display: flex;
     align-items: center;
-    gap: 8px;
-    cursor: pointer;
+    justify-content: center;
+    width: 100%;
     padding: 8px 12px;
     border-radius: var(--border-radius);
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
     color: var(--text-light-color);
     transition: all var(--transition-speed) ease;
+    cursor: pointer;
+    user-select: none;
 }
+
 .loop-toggle:hover {
     border-color: var(--primary-color);
     color: var(--primary-color);
 }
+
 .loop-toggle.active {
     border-color: var(--secondary-color);
     color: var(--secondary-color);
     background-color: rgba(52, 199, 89, 0.1);
 }
+
 body.dark-mode .loop-toggle.active {
-     background-color: rgba(48, 209, 88, 0.2);
+    background-color: rgba(48, 209, 88, 0.2);
 }
 
 .loop-toggle input[type="checkbox"] {
-    display: none; /* Hide actual checkbox */
+    display: none;
 }
 
 .loop-toggle .loop-icon {
@@ -274,6 +346,12 @@ body.dark-mode .loop-toggle.active {
 .loop-toggle .loop-text {
     font-size: 0.9rem;
     font-weight: 500;
+}
+
+.loop-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    pointer-events: none;
 }
 
 #add-timer-btn {

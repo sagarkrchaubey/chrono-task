@@ -24,10 +24,12 @@ function createTimerElement(timerId, name = `Timer ${Object.keys(activeTimers).l
                 <button class="timer-remove-btn" title="Remove Timer">×</button>
             </div>
         </div>
-        <div class="tasks-list">
-            <!-- Task items will be added here -->
+        <div class="tasks-list-container">
+            <div class="tasks-list">
+                <!-- Task items will be added here -->
+            </div>
+            <button class="add-task-btn btn btn-secondary">+ Add Task</button>
         </div>
-        <button class="add-task-btn btn btn-secondary">+ Add Task</button>
         <div class="timer-controls">
             <div class="timer-main-controls">
                 <button class="btn btn-primary start-pause-timer">Start</button>
@@ -37,12 +39,17 @@ function createTimerElement(timerId, name = `Timer ${Object.keys(activeTimers).l
             <div class="timer-options">
                 <label class="loop-toggle" title="Toggle Loop">
                     <input type="checkbox" class="loop-checkbox">
-                    <span class="loop-icon">🔄</span>
                     <span class="loop-text">Loop Off</span>
                 </label>
             </div>
         </div>
     `;
+
+    // Initialize the loop toggle state
+    const loopCheckbox = timerInstance.querySelector('.loop-checkbox');
+    const loopText = timerInstance.querySelector('.loop-text');
+    loopCheckbox.checked = false; // Default to not looping
+    handleToggleLoop(timerId, loopCheckbox, loopText);
 
     timersListContainer.appendChild(timerInstance);
     return timerInstance;
@@ -68,7 +75,7 @@ function createTaskElement(task) {
         </div>
         <div class="task-controls">
             <button class="task-btn task-edit-btn" title="Edit Task">✎</button>
-            <button class="task-btn task-remove-btn" title="Remove Task">×</button>
+            <button class="task-btn task-remove-btn" title="Delete Task">×</button>
         </div>
     `;
     return taskItem;
@@ -395,10 +402,14 @@ function handleToggleLoop(timerId, checkbox, textElement) {
     const timer = activeTimers[timerId];
     if (!timer) return;
 
+    // Update the timer's loop state based on the checkbox
     timer.isLooping = checkbox.checked;
+
+    // Update the UI text and active class
     textElement.textContent = timer.isLooping ? 'Loop On' : 'Loop Off';
     checkbox.closest('.loop-toggle').classList.toggle('active', timer.isLooping);
-     console.log(`Timer ${timerId} loop set to ${timer.isLooping}.`);
+
+    console.log(`Timer ${timerId} loop set to ${timer.isLooping}.`);
 }
 
 /** Updates the enabled/disabled state of timer control buttons */
@@ -508,12 +519,15 @@ export function setupTimerSection() {
             });
         } else if (target.closest('.loop-toggle')) {
             const checkbox = timerInstance.querySelector('.loop-checkbox');
-             const textElement = timerInstance.querySelector('.loop-text');
-             // If the click wasn't directly on the checkbox, toggle it
-             if (!target.matches('.loop-checkbox')) {
-                  checkbox.checked = !checkbox.checked;
-             }
+            const textElement = timerInstance.querySelector('.loop-text');
+            // Only toggle if click wasn't on the checkbox itself
+            if (!target.matches('.loop-checkbox')) {
+                checkbox.checked = !checkbox.checked;
+            }
+            // Update loop state
             handleToggleLoop(timerId, checkbox, textElement);
+            // Prevent event from bubbling
+            event.stopPropagation();
         } else if (target.matches('.timer-name')) {
             const nameSpan = target;
             const nameInput = timerInstance.querySelector('.timer-name-input');

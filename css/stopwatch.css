@@ -1,19 +1,27 @@
 /* css/stopwatch.css */
 
 .stopwatch-display {
-    font-size: 4.5rem; /* Slightly reduced for balance */
-    font-weight: 300; /* Lighter weight for modern feel */
+    font-size: 4.5rem;
+    font-weight: 300;
     text-align: center;
     margin: 30px 0 40px 0;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 1px;
+    font-family: 'Roboto Mono', monospace;
     color: var(--text-color);
     transition: color var(--transition-speed) ease;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    white-space: nowrap;
+    gap: 0; /* Remove any gap between elements */
+    position: relative; /* For absolute positioning of milliseconds */
+    height: 5.5rem; /* Fixed height to prevent container jumping */
+    padding: 0 60px; /* Space for milliseconds */
 }
 
 .stopwatch-display span {
     display: inline-block;
-    min-width: 1ch; /* Ensure consistent spacing */
+    width: 2ch; /* Exact width for digits */
+    text-align: center;
 }
 
 /* Specific colors for time units */
@@ -22,17 +30,24 @@
 #sw-seconds { color: var(--primary-color); }
 
 .stopwatch-display .separator {
-    color: var(--text-light-color);
-    margin: 0 2px;
-    font-weight: 400;
+    width: 1ch; /* Exact width for separator */
     opacity: 0.7;
+    color: var(--text-light-color);
+    font-weight: 400;
+    text-align: center;
 }
 
 .stopwatch-milliseconds {
     font-size: 2rem;
     color: var(--text-light-color);
-    margin-left: 5px;
     font-weight: 400;
+    position: absolute; /* Take out of flow */
+    left: 100%; /* Position after the main display */
+    bottom: 0.8rem; /* Align with baseline */
+    width: 3ch; /* Fixed width for .00 */
+    text-align: left;
+    margin: 0; /* Remove margin */
+    transform: translateX(-50px); /* Pull back slightly */
 }
 
 .stopwatch-controls {
@@ -45,17 +60,24 @@
 .stopwatch-controls .btn {
     min-width: 120px;
     height: 50px; /* Consistent button height */
+    border-radius: var(--border-radius); /* Ensure consistent border radius */
 }
 
-/* Specific styling for reset button */
-.stopwatch-controls .btn-danger {
-    width: 50px; /* Keep square/circle shape */
+/* Only apply circular style to reset button */
+.stopwatch-controls .btn-reset {
+    width: 50px;
     height: 50px;
     min-width: unset;
     padding: 0;
-    border-radius: 50%; /* Circular */
-    font-size: 1.2rem; /* Adjust icon size */
+    border-radius: 50%;
+    font-size: 1.2rem;
 }
+
+/* Remove any special styling for btn-danger in stopwatch controls */
+.stopwatch-controls .btn-danger {
+    /* Remove any overrides */
+}
+
 .sw-reset-icon {
     font-size: 1.6rem;
     line-height: 1; /* Ensure icon is centered */
